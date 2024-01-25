@@ -15,12 +15,20 @@
     config = {
       colorschemes.catppuccin.enable = true;
     };
+    nvimModule = {
+      inherit config;
+    };
     nvim = nixvim.legacyPackages."${system}".makeNixvim config;
   in
   {
     packages.x86_64-linux = {
       inherit nvim;
       default = nvim;
+    };
+
+    nixosModules = {
+      nvim = nvimModule;
+      default = nvimModule;
     };
   };
 }
