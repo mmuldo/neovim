@@ -9,31 +9,32 @@
     };
   };
 
-  outputs = { self, nixvim, ... }:
+  outputs = { self, nixpkgs, nixvim, ... }:
   let
     system = "x86_64-linux";
-    nixvimConfig = {
-      colorschemes.catppuccin.enable = true;
-    };
-    nvimModule = { ... }: {
+    pkgs = nixpkgs.legacyPackages.${system};
+    config = import ./modules { inherit pkgs; };
+
+    package = nixvim.legacyPackages.${system}.makeNixvim config;
+
+    module = { ... }: {
       imports = [
         nixvim.nixosModules.nixvim
       ];
       programs.nixvim = {
         enable = true;
-      } // nixvimConfig;
+      } // config;
     };
-    nvim = nixvim.legacyPackages."${system}".makeNixvim nixvimConfig;
   in
   {
     packages.x86_64-linux = {
-      inherit nvim;
-      default = nvim;
+      nvim = package;
+      default = package;
     };
 
     nixosModules = {
-      nvim = nvimModule;
-      default = nvimModule;
+      neovim = module;
+      default = module;
     };
   };
 }
