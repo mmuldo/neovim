@@ -4,6 +4,8 @@
       ./treesitter.nix
       ./telescope.nix
       ./neo-tree.nix
+      ./lualine.nix
+      ./lsp.nix
     ]
   );
 }
