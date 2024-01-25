@@ -12,13 +12,18 @@
   outputs = { self, nixvim, ... }:
   let
     system = "x86_64-linux";
-    config = {
+    nixvimConfig = {
       colorschemes.catppuccin.enable = true;
     };
-    nvimModule = {
-      inherit config;
+    nvimModule = { ... }: {
+      imports = [
+        nixvim.nixosModules.nixvim
+      ];
+      programs.nixvim = {
+        enable = true;
+      } // nixvimConfig;
     };
-    nvim = nixvim.legacyPackages."${system}".makeNixvim config;
+    nvim = nixvim.legacyPackages."${system}".makeNixvim nixvimConfig;
   in
   {
     packages.x86_64-linux = {
