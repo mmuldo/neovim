@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -13,7 +14,7 @@
   let
     system = "x86_64-linux";
     pkgs = nixpkgs.legacyPackages.${system};
-    config = import ./modules { inherit pkgs; };
+    config = import ./config { inherit pkgs; };
 
     package = nixvim.legacyPackages.${system}.makeNixvim config;
 
@@ -21,20 +22,21 @@
       imports = [
         nixvim.nixosModules.nixvim
       ];
+
       programs.nixvim = {
         enable = true;
       } // config;
     };
   in
   {
-    packages.x86_64-linux = {
+    packages.x86_64-linux = rec {
       nvim = package;
-      default = package;
+      default = nvim;
     };
 
-    nixosModules = {
+    nixosModules = rec {
       neovim = module;
-      default = module;
+      default = neovim;
     };
   };
 }
