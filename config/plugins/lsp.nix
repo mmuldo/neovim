@@ -17,6 +17,7 @@
     };
     servers = {
       nixd.enable = true;
+      # TODO: rustaceanvim
       rust-analyzer = {
         enable = true;
         installCargo = true;
@@ -25,6 +26,7 @@
     };
   };
 
+  # TODO: rustaceanvim
   rust-tools = {
     enable = true;
   };
