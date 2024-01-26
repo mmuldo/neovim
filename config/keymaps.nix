@@ -5,8 +5,8 @@
       key = "<leader>0";
     }
     {
-      action = "<cmd>echo 'hi'<CR>";
-      key = "<leader>1";
+      action = "<cmd>lua vim.lsp.buf.format()<CR>";
+      key = "<leader>bf";
     }
   ];
 }

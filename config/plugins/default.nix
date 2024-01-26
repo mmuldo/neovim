@@ -7,6 +7,7 @@
       ./lualine.nix
       ./lsp.nix
       ./completions.nix
+      ./none-ls.nix
     ]
   );
 }
