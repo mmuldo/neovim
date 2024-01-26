@@ -6,6 +6,7 @@
       ./neo-tree.nix
       ./lualine.nix
       ./lsp.nix
+      ./completions.nix
     ]
   );
 }
