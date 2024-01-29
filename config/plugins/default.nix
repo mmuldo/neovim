@@ -1,13 +1,11 @@
 {
-  plugins = builtins.foldl' (acc: elem: acc // elem) {} (
-    map (file: import file) [
-      ./treesitter.nix
-      ./telescope.nix
-      ./neo-tree.nix
-      ./lualine.nix
-      ./lsp.nix
-      ./completions.nix
-      ./none-ls.nix
-    ]
-  );
+  imports = [
+    ./completions.nix
+    ./lsp.nix
+    ./lualine.nix
+    ./neo-tree.nix
+    ./none-ls.nix
+    ./telescope.nix
+    ./treesitter.nix
+  ];
 }

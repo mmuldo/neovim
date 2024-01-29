@@ -2,6 +2,7 @@
   description = "mmuldo's neo(nix)vim config";
 
   inputs = {
+    flake-parts.url = "github:hercules-ci/flake-parts";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     nixvim = {
@@ -10,33 +11,41 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixvim, ... }:
-  let
-    system = "x86_64-linux";
-    pkgs = nixpkgs.legacyPackages.${system};
-    config = import ./config { inherit pkgs; };
+  outputs = {
+    flake-parts,
+    nixpkgs,
+    nixvim,
+    ...
+  } @ inputs:
+  flake-parts.lib.mkFlake { inherit inputs; } {
+    systems = [
+      "x86_64-linux"
+      "aarch64-linux"
+      "x86_64-darwin"
+      "aarch64-darwin"
+    ];
 
-    package = nixvim.legacyPackages.${system}.makeNixvim config;
+    perSystem = { system, ... }:
+    let
+      package = nixvim.legacyPackages.${system}.makeNixvimWithModule {
+        module = ./config;
+      };
 
-    module = { ... }: {
-      imports = [
-        nixvim.nixosModules.nixvim
-      ];
+      check = nixvim.lib.${system}.check.mkTestDerivationFromNvim {
+        nvim = package;
+        name = "nvim-test";
+      };
+    in
+    {
+      checks = rec {
+        nvim = check;
+        default = nvim;
+      };
 
-      programs.nixvim = {
-        enable = true;
-      } // config;
-    };
-  in
-  {
-    packages.x86_64-linux = rec {
-      nvim = package;
-      default = nvim;
-    };
-
-    nixosModules = rec {
-      neovim = module;
-      default = neovim;
+      packages = rec {
+        nvim = package;
+        default = nvim;
+      };
     };
   };
 }

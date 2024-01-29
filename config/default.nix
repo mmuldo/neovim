@@ -1,5 +1,8 @@
-{ pkgs }:
-
-import ./options.nix
-// import ./plugins
-// import ./keymaps.nix
+{
+  imports = [
+    ./colorschemes.nix
+    ./core.nix
+    ./keymaps.nix
+    ./plugins
+  ];
+}
