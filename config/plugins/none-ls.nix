@@ -9,7 +9,6 @@
         statix.enable = true;
       };
       formatting = {
-        rustfmt.enable = true;
         nixfmt.enable = true;
       };
     };
