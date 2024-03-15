@@ -1,6 +1,3 @@
 {
-  plugins.lualine = {
-    enable = true;
-    theme = "tokyonight";
-  };
+  plugins.lualine.enable = true;
 }

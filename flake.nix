@@ -31,6 +31,11 @@
         module = ./config;
       };
 
+      colorschemeToNixvim = colorscheme: {
+        name = colorscheme;
+        value = package.nixvimExtend { colorschemes.${colorscheme}.enable = true; };
+      };
+
       check = nixvim.lib.${system}.check.mkTestDerivationFromNvim {
         nvim = package;
         name = "nvim-test";
@@ -42,9 +47,15 @@
         default = nvim;
       };
 
-      packages = rec {
-        nvim = package;
-        default = nvim;
+      packages = builtins.listToAttrs (map colorschemeToNixvim [
+        "catppuccin"
+        "dracula"
+        "gruvbox"
+        "nord"
+        "rose-pine"
+        "tokyonight"
+      ]) // {
+        default = package;
       };
     };
   };
