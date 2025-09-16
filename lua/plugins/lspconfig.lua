@@ -24,6 +24,11 @@ return {
 					},
 				},
 				fuzzy = { implementation = "prefer_rust_with_warning" },
+				completion = {
+					trigger = {
+						show_on_trigger_character = true,
+					},
+				},
 			},
 
 			opts_extend = { "sources.default" },
@@ -40,9 +45,10 @@ return {
 		},
 	},
 	config = function()
-		local host = true and "lapis" or "nixos"
-		local nixos_flake = string.format('(builtins.getFlake ("git+file://" + toString ~/flakes/%s))', host)
-
+		local hostname = vim.uv.os_gethostname()
+		local flake_dir = DirExists(vim.fn.expand("~/flakes/nixos")) and "~/flakes/nixos" or ("~/flakes/" .. hostname)
+		local nixos_flake = string.format('(builtins.getFlake ("git+file://" + toString %s))', flake_dir)
+		local nixos_options = string.format("%s.nixosConfigurations.%s.options", nixos_flake, hostname)
 		local servers = {
 			lua_ls = {},
 			nixd = {
@@ -56,7 +62,10 @@ return {
 					},
 					options = {
 						nixos = {
-							expr = string.format("%s.nixosConfigurations.%s.options", nixos_flake, host),
+							expr = nixos_options,
+						},
+						home_manager = {
+							expr = string.format("%s.home-manager.users.type.getSubOptions []", nixos_options),
 						},
 					},
 				},
