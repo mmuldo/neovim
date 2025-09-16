@@ -1,5 +1,5 @@
 P = function(o)
-	vim.print(vim.inspect(o))
+  vim.print(vim.inspect(o))
 end
 
 DirExists = function(path)
