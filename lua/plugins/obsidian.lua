@@ -5,6 +5,12 @@ return {
   ---@module 'obsidian'
   ---@type obsidian.config
   opts = {
+    workspaces = {
+      {
+        name = "notes",
+        path = "~/vaults/notes",
+      }
+    },
     completion = {
       blink = true,
       nvim_cmp = false,
@@ -12,5 +18,6 @@ return {
     picker = {
       name = "fzf-lua",
     },
+    legacy_commands = false,
   },
 }
