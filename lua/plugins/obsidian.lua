@@ -22,6 +22,9 @@ return {
       name = "fzf-lua",
     },
     legacy_commands = false,
+    note_id_func = function (title, _)
+      return title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+    end
   },
   config = function(_, opts)
     require "obsidian".setup(opts)
