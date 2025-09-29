@@ -1,0 +1,11 @@
+vim.keymap.set("n", "Q", "<nop>")
+
+vim.keymap.set("n", "<c-k>", ":wincmd k<CR>")
+vim.keymap.set("n", "<c-j>", ":wincmd j<CR>")
+vim.keymap.set("n", "<c-h>", ":wincmd h<CR>")
+vim.keymap.set("n", "<c-l>", ":wincmd l<CR>")
+vim.keymap.set("t", "<c-k>", "<C-\\><C-N><C-w>k")
+vim.keymap.set("t", "<c-j>", "<C-\\><C-N><C-w>j")
+vim.keymap.set("t", "<c-h>", "<C-\\><C-N><C-w>h")
+vim.keymap.set("t", "<c-l>", "<C-\\><C-N><C-w>l")
+vim.keymap.set("t", "<esc><esc>", "<C-\\><C-N>")
